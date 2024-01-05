@@ -15,15 +15,13 @@ const getAllNotes = async (req, res) => {
 const createNote = async (req, res) => {
   try {
     const { title, content } = req.body;
-    //console.log(title, content);
     // Create a new note for the authenticated user
     const newNote = new Note({
       title,
       content,
-      owner: req.user.userId, // Set the owner to the authenticated user's ID
+      owner: req.user.userId,
     });
-    //console.log(newNote);
-    // Save the new note to the database
+
     const savedNote = await newNote.save();
 
     res.status(201).json(savedNote);
@@ -36,7 +34,6 @@ const getNoteById = async (req, res) => {
   try {
     const noteId = req.params.id;
 
-    // Find the note by ID and owner (authenticated user)
     const note = await Note.findOne({ _id: noteId, owner: req.user.userId });
 
     if (!note) {
@@ -75,7 +72,6 @@ const updateNoteById = async (req, res) => {
     const noteId = req.params.id;
     const { title, content } = req.body;
 
-    // Find and update the note by ID and owner (authenticated user)
     const updatedNote = await Note.findOneAndUpdate(
       { _id: noteId, owner: req.user.userId },
       { title, content },

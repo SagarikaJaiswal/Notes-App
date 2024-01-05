@@ -1,5 +1,3 @@
-// controllers/userController.js
-
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET_KEY;
@@ -38,8 +36,6 @@ const login = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Compare the provided password with the hashed password in the database
-    // const isPasswordValid = await bcrypt.compare(password, user.password);
     if (password !== user.password) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -48,9 +44,7 @@ const login = async (req, res) => {
     const token = jwt.sign(
       { userId: user._id, username: user.username },
       secret
-    ); // Replace 'yourSecretKey' with your actual secret key
-    //localStorage.setItem("token", token);
-    //console.log("logged in");
+    );
     res.json({ token });
   } catch (error) {
     console.error("Error during user login:", error);
